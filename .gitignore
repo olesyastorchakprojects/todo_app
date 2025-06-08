@@ -1,0 +1,13 @@
+/target
+/sled
+/sled_data
+/tempo-data
+/tempo-wal
+/bench_sled_data
+/compose/sled_data
+/compose/tempo-data
+/compose/tempo/tempo-data
+/compose/tempo/tempo-wal
+/bench/bench
+Cargo.lock
+.env

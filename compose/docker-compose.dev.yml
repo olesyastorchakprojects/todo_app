@@ -1,0 +1,38 @@
+services:
+  todo_app:
+    build:
+      context: ../
+      dockerfile: /compose/Dockerfile.dev
+    container_name: todo_app
+    environment:
+      - RUST_LOG=info
+      - RUST_BACKTRACE=1
+      - JWT_SECRET=secret
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://tempo:4317
+    ports:
+      - "3400:3400"
+    volumes:
+      - ..:/usr/src/app
+      - ../config:/usr/src/app/config
+      - cargo-target:/usr/src/app/target
+      - ../compose/sled_data:/usr/src/app/sled_data
+    working_dir: /usr/src/app
+    networks:
+      - axum_net
+    command: >
+      cargo watch
+      --poll
+      -w src
+      -w Cargo.toml
+      -w Cargo.lock
+      --ignore target/*
+      -x run
+
+
+volumes:
+  sled_data:
+  cargo-target:
+
+networks:
+  axum_net:
+    external: true

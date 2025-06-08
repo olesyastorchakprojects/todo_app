@@ -1,0 +1,14 @@
+FROM rust:1.85
+
+WORKDIR /app
+
+RUN cargo install cargo-watch
+
+COPY Cargo.toml Cargo.lock ./
+RUN mkdir src && echo "fn main() {}" > src/main.rs
+RUN cargo build --features jemalloc
+RUN rm -rf src
+
+COPY . .
+
+CMD ["cargo", "watch", "--poll", "-w", "src", "-w", "Cargo.toml", "-x", "run"]

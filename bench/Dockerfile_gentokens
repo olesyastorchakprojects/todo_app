@@ -1,0 +1,27 @@
+### Dockerfile.dev — билд релизного бинарника из исходников
+
+FROM rust:1.85 as builder
+
+# Установка зависимостей
+RUN apt-get update && apt-get install -y pkg-config libssl-dev
+
+# Создание рабочего каталога
+WORKDIR /app
+
+# Копирование исходников
+COPY . .
+
+# Оптимизированная сборка релиза
+RUN cargo build --release
+
+# Финальный минимальный образ
+FROM debian:bookworm-slim
+
+# Установка нужных библиотек
+RUN apt-get update && apt-get install -y libssl3 ca-certificates && rm -rf /var/lib/apt/lists/*
+
+# Копирование бинарника
+COPY --from=builder /app/target/release/gentokens /usr/local/bin/gentokens
+
+# Запуск
+CMD ["/usr/local/bin/gentokens"]

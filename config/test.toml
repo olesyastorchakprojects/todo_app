@@ -1,0 +1,29 @@
+[jwt]
+access_token_ttl_sec = 3600
+refresh_token_ttl_sec = 3600
+session_ttl_sec = 3600
+
+[auth]
+kdf_algo = "pbkdf2"
+
+[auth.pbkdf2]
+iterations = 1000
+
+[telemetry]
+stdout_tracing = false
+tracing = false
+metrics = false
+
+[rate_limiter]
+
+[rate_limiter.registration]
+cells_per_second = 100
+burst_per_second = 20
+
+[rate_limiter.login]
+cells_per_second = 100
+burst_per_second = 20
+
+[storage.sled]
+# in delete_all we delete items in batches
+delete_batch_size = 15

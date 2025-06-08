@@ -1,0 +1,85 @@
+[storage]
+backend = "sled"
+
+[storage.sled]
+path = "/app/sled_data"
+# in delete_all we delete items in batches
+delete_batch_size = 100
+
+[jwt]
+# 10 min
+access_token_ttl_sec = 600
+# 10 days
+refresh_token_ttl_sec = 864000
+# 30 days
+session_ttl_sec = 2592000
+
+[telemetry]
+tracing_endpoint = "http://otel-collector:4317"
+metrics_endpoint = "http://otel-collector:4317"
+stdout_tracing = false
+tracing = true
+metrics = true
+tracing_sampling_rate = 1
+
+[server]
+addr = "0.0.0.0:3400"
+
+[auth]
+# argon2 or pbkdf2
+kdf_algo = "argon2"
+
+[[auth.admins]]
+email = "admin@gmail.com"
+password = "admin"
+
+[auth.argon2]
+memory_cost = 32768
+time_cost = 2
+parallelism = 1
+
+[auth.pbkdf2]
+iterations = 310000 # prod > 310000, up to 600000
+
+[rate_limiter]
+x_forwarded_for = false
+
+[rate_limiter.registration.global]
+cells_per_second = 8
+burst_per_second = 2
+
+[rate_limiter.registration.per_ip]
+cells_per_second = 2
+burst_per_second = 2
+
+[rate_limiter.login.global]
+cells_per_second = 10
+burst_per_second = 2
+
+[rate_limiter.login.per_ip]
+cells_per_second = 2
+burst_per_second = 2
+
+[rate_limiter.admin.global]
+cells_per_second = 30
+burst_per_second = 5
+
+[rate_limiter.admin.per_ip]
+cells_per_second = 5
+burst_per_second = 2
+
+[rate_limiter.crud_light.global]
+cells_per_second = 300
+burst_per_second = 25
+
+[rate_limiter.crud_light.per_ip]
+cells_per_second = 15
+burst_per_second = 5
+
+[rate_limiter.crud_heavy.global]
+cells_per_second = 50
+burst_per_second = 10
+
+[rate_limiter.crud_heavy.per_ip]
+cells_per_second = 10
+burst_per_second = 3

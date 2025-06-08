@@ -1,0 +1,11 @@
+target
+.git
+**/*.log
+**/bench
+!config/
+.env
+sled
+sled_data
+compose/tempo-data
+compose/tempo-wal
+compose/sled_data

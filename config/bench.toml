@@ -1,0 +1,13 @@
+[jwt]
+access_token_ttl_sec = 3600
+refresh_token_ttl_sec = 3600
+session_ttl_sec = 3600
+
+[server]
+addr = "0.0.0.0:3401"
+
+[telemetry]
+tracing_sampling_rate = 0.1
+
+[rate_limiter]
+x_forwarded_for = true

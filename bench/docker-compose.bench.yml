@@ -1,0 +1,68 @@
+
+x-token-common: &token-env
+  ENV_SERVER_URL: http://todo-bench:3401
+  ENV_TOKEN_FILE: /tokens/tokens.json
+
+services:
+  app:
+    build:
+      context: ../
+      dockerfile: bench/Dockerfile_bench
+    container_name: todo-bench
+    ports:
+      - "3401:3401"
+    volumes:
+      - ../config:/app/config
+      - cargo-target:/app/target
+    environment:
+      - JWT_SECRET=bench_secret
+      - RUN_MODE=${RUN_MODE}
+      - APP__AUTH__PBKDF2__ITERATIONS=${APP__AUTH__PBKDF2__ITERATIONS}
+      - APP__AUTH__KDF_ALGO=${APP__AUTH__KDF_ALGO}
+    networks:
+      - axum_net
+
+  token_generator:
+    build:
+      context: ./gentokens
+      dockerfile: ../Dockerfile_gentokens
+    volumes:
+      - ./bench/tokens:/tokens
+    environment:
+      <<: *token-env
+      ENV_TOKEN_COUNT: ${ENV_TOKEN_COUNT}
+    networks:
+      - axum_net
+
+  k6:
+    container_name: k6
+    image: ghcr.io/szkiba/xk6-prometheus:latest
+    volumes:
+      - ./bench_scripts:/scripts
+      - ./bench/tokens:/tokens
+    environment:
+      <<: *token-env
+      K6_SCRIPT: ${K6_SCRIPT}
+      ENV_TOKEN_COUNT: ${ENV_TOKEN_COUNT}
+      RANDOM_IP_COUNT: ${RANDOM_IP_COUNT}
+      K6_OUT: "prometheus=namespace=k6&port=5656"
+      K6_PROMETHEUS_TAGS_AS_LABELS: phase,scenario
+      K6_PROMETHEUS_SUMMARY_TAGS_AS_LABELS: phase,scenario
+      K6_SYSTEM_TAGS: "status,method"
+    command:
+      - run
+      - --summary-trend-stats=avg,min,max,p(90),p(95),p(99)
+      - /scripts/${K6_SCRIPT}
+    networks:
+      - axum_net
+    user: root
+
+networks:
+  axum_net:
+    external: true
+
+volumes:
+  tokens:
+  config:
+  cargo-target:
+
