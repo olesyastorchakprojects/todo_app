@@ -91,12 +91,12 @@ impl IntoResponse for AppError {
         tracing::error!(error = ?self, "AppError");
 
         let status = match &self {
-            AppError::NotFound { .. } => StatusCode::NOT_FOUND,
-            AppError::NoContent { .. } => return StatusCode::NO_CONTENT.into_response(),
-            AppError::UserAlreadyExists { .. } => StatusCode::CONFLICT,
-            AppError::UserByEmailNotFound { .. } => StatusCode::UNAUTHORIZED,
-            AppError::PasswordMismatch { .. } => StatusCode::UNAUTHORIZED,
-            AppError::Forbidden { .. } => StatusCode::FORBIDDEN,
+            AppError::NotFound => StatusCode::NOT_FOUND,
+            AppError::NoContent => return StatusCode::NO_CONTENT.into_response(),
+            AppError::UserAlreadyExists => StatusCode::CONFLICT,
+            AppError::UserByEmailNotFound => StatusCode::UNAUTHORIZED,
+            AppError::PasswordMismatch => StatusCode::UNAUTHORIZED,
+            AppError::Forbidden => StatusCode::FORBIDDEN,
             AppError::InvalidRole { .. }
             | AppError::MissingPasswordEmail
             | AppError::EmptyPatch => StatusCode::BAD_REQUEST,

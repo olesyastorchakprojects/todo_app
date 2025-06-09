@@ -14,7 +14,7 @@ async fn get_all_users_as_admin() {
 
     for i in 0..users_count {
         let res = client
-            .register_user(&format!("user{}@gmail.com", i), "123")
+            .register_user(&format!("user{i}@gmail.com"), "123")
             .await;
         assert_eq!(res.status(), StatusCode::CREATED);
     }
@@ -35,13 +35,12 @@ async fn get_all_users_as_admin() {
     assert!(users_page.cursor.is_none());
     users.extend(users_page.items);
 
-    let any_lost_user = (0..users_count).into_iter().any(|suffix| {
-        users
+    let any_lost_user = (0..users_count).any(|suffix| {
+        !users
             .iter()
-            .find(|v| v.email == format!("user{}@gmail.com", suffix))
-            .is_none()
+            .any(|v| v.email == format!("user{suffix}@gmail.com"))
     });
-    assert_eq!(any_lost_user, false);
+    assert!(!any_lost_user);
 }
 
 #[tokio::test]

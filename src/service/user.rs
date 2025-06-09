@@ -226,13 +226,10 @@ impl ServiceUserRef {
                 role,
             };
 
-            let result = self
-                .storage
+            self.storage
                 .put(id, user.clone())
                 .await
-                .map_err(AppError::from);
-
-            result
+                .map_err(AppError::from)
         })
         .await
     }

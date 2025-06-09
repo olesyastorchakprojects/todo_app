@@ -59,7 +59,7 @@ async fn test_get_user_with_id() {
     let user_id = UserId::new();
     let email = "aaa@gmail.com".to_string();
     let new_user = User {
-        id: user_id.into(),
+        id: user_id,
         email,
         hashed_password: create_password_hash("password", &test_settings().auth)
             .await
@@ -82,7 +82,7 @@ async fn test_get_user_with_email() {
     let user_id = UserId::new();
     let email = "aaa1@gmail.com".to_string();
     let new_user = User {
-        id: user_id.into(),
+        id: user_id,
         email: email.clone(),
         hashed_password: create_password_hash("password", &test_settings().auth)
             .await
@@ -105,7 +105,7 @@ async fn test_update_user_role() {
     let user_id = UserId::new();
     let email = "aaa1@gmail.com".to_string();
     let new_user = User {
-        id: user_id.into(),
+        id: user_id,
         email: email.clone(),
         hashed_password: create_password_hash("password", &test_settings().auth)
             .await

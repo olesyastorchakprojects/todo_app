@@ -72,7 +72,7 @@ impl Service {
 
 impl Service {
     #[instrument(name = "Service::login_user", skip_all)]
-    pub async fn login_user(
+    pub(crate) async fn login_user(
         &self,
         login: LoginUser,
         settings: &Settings,
@@ -94,7 +94,7 @@ impl Service {
             let session_id = session.id;
             let jwt_secret = std::env::var(JWT_SECRET_KEY).map_err(|_|AppError::FailedToLoadEnvVar(JWT_SECRET_KEY))?;
 
-            self.session_storage.put(session.id, session).await?;
+            self.auth().add(session).await?;
 
             let access_token = info_span!("generate_access_token").in_scope(|| {
                 info!(user_id = %user.id, ttl_sec = settings.jwt.access_token_ttl_sec, "generating access token");

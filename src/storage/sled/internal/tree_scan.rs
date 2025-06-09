@@ -75,9 +75,8 @@ impl<'a, Id> TreeScan<'a, Id> {
         if let Some(cursor) = &pagination.after {
             info!(after = %cursor, "collect values after key");
 
-            self.after_key.exists_in(self.tree).map_err(|e| {
+            self.after_key.exists_in(self.tree).inspect_err(|_| {
                 error!(key = %self.after_key, "Key not found");
-                e
             })?;
         }
 

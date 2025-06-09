@@ -94,7 +94,7 @@ impl TodoStorage for SledStorage {
     ) -> Result<(), StorageError> {
         // cloning tree should be cheap: struct Tree{inner: Arc<TreeInner>}
         let (todo_tree, bincode_config) = info_span!("Cloning trees and config")
-            .in_scope(|| (self.todo_tree.clone(), self.bincode_config.clone()));
+            .in_scope(|| (self.todo_tree.clone(), self.bincode_config));
 
         let span = Span::current();
         tokio::task::spawn_blocking(move || {
@@ -148,7 +148,7 @@ impl TodoStorage for SledStorage {
             .in_scope(|| {
                 (
                     self.todo_tree.clone(),
-                    self.bincode_config.clone(),
+                    self.bincode_config,
                     self.storage_settings.clone(),
                 )
             });
@@ -212,7 +212,7 @@ fn delete_all_todos(
                     Ok(())
                 })?;
 
-                deleted_items = deleted_items + page.items.len();
+                deleted_items += page.items.len();
                 match page.next_cursor {
                     Some(cursor) => after = Some(cursor),
                     None => break,

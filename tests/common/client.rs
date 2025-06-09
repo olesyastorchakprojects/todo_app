@@ -66,7 +66,7 @@ impl TestAppClient {
     pub async fn refresh_token(&self, token: &str) -> reqwest::Response {
         self.client
             .post(self.url.join("auth/refresh").unwrap())
-            .header("Authorization", format!("Bearer {}", token))
+            .header("Authorization", format!("Bearer {token}"))
             .send()
             .await
             .unwrap()
@@ -75,7 +75,7 @@ impl TestAppClient {
     pub async fn logout(&self, token: &str) -> reqwest::Response {
         self.client
             .post(self.url.join("auth/logout").unwrap())
-            .header("Authorization", format!("Bearer {}", token))
+            .header("Authorization", format!("Bearer {token}"))
             .send()
             .await
             .unwrap()
@@ -85,7 +85,7 @@ impl TestAppClient {
         let request_builder = if let Some(token) = token {
             self.client
                 .post(self.url.join("todos").unwrap())
-                .header("Authorization", format!("Bearer {}", token))
+                .header("Authorization", format!("Bearer {token}"))
                 .json(&serde_json::json!({
                     "text": text.unwrap_or("aaa"),
                 }))
@@ -102,7 +102,7 @@ impl TestAppClient {
     pub async fn get_todo(&self, token: &str, todo_id: &str) -> reqwest::Response {
         self.client
             .get(self.url.join("todos/").unwrap().join(todo_id).unwrap())
-            .header("Authorization", format!("Bearer {}", token))
+            .header("Authorization", format!("Bearer {token}"))
             .json(&serde_json::json!({
                 "text": "aaa",
             }))
@@ -130,7 +130,7 @@ impl TestAppClient {
 
         self.client
             .get(url)
-            .header("Authorization", format!("Bearer {}", token))
+            .header("Authorization", format!("Bearer {token}"))
             .send()
             .await
             .unwrap()
@@ -145,7 +145,7 @@ impl TestAppClient {
     ) -> reqwest::Response {
         self.client
             .patch(self.url.join("todos/").unwrap().join(todo_id).unwrap())
-            .header("Authorization", format!("Bearer {}", token))
+            .header("Authorization", format!("Bearer {token}"))
             .json(&serde_json::json!({
                 "text": text,
                 "completed": true,
@@ -163,7 +163,7 @@ impl TestAppClient {
     ) -> reqwest::Response {
         self.client
             .patch(self.url.join("todos/").unwrap().join(todo_id).unwrap())
-            .header("Authorization", format!("Bearer {}", token))
+            .header("Authorization", format!("Bearer {token}"))
             .json(&serde_json::json!({}))
             .send()
             .await
@@ -173,7 +173,7 @@ impl TestAppClient {
     pub async fn delete_todo(&self, token: &str, todo_id: &str) -> reqwest::Response {
         self.client
             .delete(self.url.join("todos/").unwrap().join(todo_id).unwrap())
-            .header("Authorization", format!("Bearer {}", token))
+            .header("Authorization", format!("Bearer {token}"))
             .send()
             .await
             .unwrap()
@@ -198,7 +198,7 @@ impl TestAppClient {
 
         self.client
             .get(url)
-            .header("Authorization", format!("Bearer {}", token))
+            .header("Authorization", format!("Bearer {token}"))
             .send()
             .await
             .unwrap()
@@ -207,11 +207,11 @@ impl TestAppClient {
     pub async fn promote_user(&self, token: &str, user_id: &UserId) -> reqwest::Response {
         let url = self
             .url
-            .join(&format!("admin/user/{}/role", user_id))
+            .join(&format!("admin/user/{user_id}/role"))
             .unwrap();
         self.client
             .patch(url)
-            .header("Authorization", format!("Bearer {}", token))
+            .header("Authorization", format!("Bearer {token}"))
             .json(&serde_json::json!({
                 "role": "admin",
 
@@ -230,7 +230,7 @@ impl TestAppClient {
             .unwrap();
         self.client
             .get(url)
-            .header("Authorization", format!("Bearer {}", token))
+            .header("Authorization", format!("Bearer {token}"))
             .send()
             .await
             .unwrap()
@@ -245,7 +245,7 @@ impl TestAppClient {
             .unwrap();
         self.client
             .get(url)
-            .header("Authorization", format!("Bearer {}", token))
+            .header("Authorization", format!("Bearer {token}"))
             .send()
             .await
             .unwrap()

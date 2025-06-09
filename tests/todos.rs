@@ -36,7 +36,7 @@ async fn get_todos_paginated() {
 
     for i in 0..todo_count {
         let res = client
-            .create_todo(Some(&tokens.access_token), Some(&format!("todo{}", i)))
+            .create_todo(Some(&tokens.access_token), Some(&format!("todo{i}")))
             .await;
         assert_eq!(res.status(), StatusCode::CREATED);
     }
@@ -58,13 +58,9 @@ async fn get_todos_paginated() {
     todo_items.extend(todos.items);
     assert_eq!(todo_items.len(), todo_count);
 
-    let any_lost_todo = (0..todo_count).into_iter().any(|suffix| {
-        todo_items
-            .iter()
-            .find(|v| v.text == format!("todo{}", suffix))
-            .is_none()
-    });
-    assert_eq!(any_lost_todo, false);
+    let any_lost_todo =
+        (0..todo_count).any(|suffix| !todo_items.iter().any(|v| v.text == format!("todo{suffix}")));
+    assert!(!any_lost_todo);
 }
 
 #[tokio::test]
@@ -89,7 +85,7 @@ async fn update_todo() {
     let todo = res.json::<Todo>().await.unwrap();
     assert_eq!(todo.text, "qwerty");
     assert_eq!(todo.group, "red");
-    assert_eq!(todo.completed, true);
+    assert!(todo.completed);
 }
 
 #[tokio::test]

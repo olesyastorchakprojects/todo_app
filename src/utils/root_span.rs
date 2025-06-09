@@ -54,42 +54,42 @@ impl<'a> RootSpanRecorder<'a> {
 
     pub fn http_status_code(&self, status_code: &StatusCode) -> &Self {
         self.span.record("http_status_code", status_code.as_u16());
-        &self
+        self
     }
 
     pub fn status(&self, value: &str) -> &Self {
         self.span.record("status", field::display(value));
-        &self
+        self
     }
 
     pub fn enduser_id(&self, id: &UserId) -> &Self {
         self.span.record("enduser_id", field::display(id));
-        &self
+        self
     }
 
     pub fn enduser_email(&self, email: &str) -> &Self {
         self.span.record("enduser_email", field::display(email));
-        &self
+        self
     }
 
     pub fn target_user_id(&self, id: &UserId) -> &Self {
         self.span.record("target_user_id", field::display(id));
-        &self
+        self
     }
 
     pub fn target_user_email(&self, email: &str) -> &Self {
         self.span.record("target_user_email", field::display(email));
-        &self
+        self
     }
 
     pub fn todo_id(&self, id: &TodoId) -> &Self {
         self.span.record("todo_id", field::display(id));
-        &self
+        self
     }
 
     pub fn session_id(&self, id: &SessionId) -> &Self {
         self.span.record("session_id", field::display(id));
-        &self
+        self
     }
 
     pub fn sampling_priority(&self, priority: SamplingPriority) -> &Self {
@@ -99,6 +99,6 @@ impl<'a> RootSpanRecorder<'a> {
         };
         self.span
             .record("sampling.priority", field::display(priority));
-        &self
+        self
     }
 }

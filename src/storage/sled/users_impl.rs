@@ -34,7 +34,7 @@ impl UserStorage for SledStorage {
                 (
                     self.user_tree.clone(),
                     self.email_tree.clone(),
-                    self.bincode_config.clone(),
+                    self.bincode_config,
                 )
             });
 
@@ -206,7 +206,7 @@ impl UserStorage for SledStorage {
                 (
                     self.user_tree.clone(),
                     self.email_tree.clone(),
-                    self.bincode_config.clone(),
+                    self.bincode_config,
                 )
             });
 
@@ -260,7 +260,7 @@ fn add_user(
         let key_email = email_key(&user.email);
 
         info_span!("sled::add_new_user_in_transaction", user = ?user).in_scope(|| {
-            let res = (user_tree, email_tree).transaction(|(users_tx, emails_tx)| {
+            (user_tree, email_tree).transaction(|(users_tx, emails_tx)| {
                 let encoded: Vec<u8> = trace_err!(
                     serialize_in_transaction_with_span(bincode_config, &user),
                     "failed to bin encode user"
@@ -276,9 +276,7 @@ fn add_user(
                 )?;
 
                 Ok(())
-            });
-
-            res
+            })
         })
     })
     .map_err(SledStorageError::from)?;

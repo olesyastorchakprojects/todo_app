@@ -23,12 +23,12 @@ pub async fn spawn_test_app(app: Router) -> TestAppHandle {
 
     let server_task = tokio::spawn(async move {
         if let Err(e) = server.await {
-            println!("server error : {:?}", e);
+            println!("server error : {e:?}");
         }
     });
 
     TestAppHandle {
-        address: Url::parse(&format!("http://{}", addr)).unwrap(),
+        address: Url::parse(&format!("http://{addr}")).unwrap(),
         _shutdown: shutdown_tx,
         _server_task: server_task,
     }

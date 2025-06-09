@@ -391,7 +391,7 @@ async fn test_valid_access_token_flow() {
     let mut headers = HeaderMap::new();
     headers.insert(
         http::header::AUTHORIZATION,
-        format!("Bearer {}", token).parse().unwrap(),
+        format!("Bearer {token}").parse().unwrap(),
     );
 
     let result = validate_header(&headers);
@@ -401,13 +401,13 @@ async fn test_valid_access_token_flow() {
     let result = validate_token(&token, &jwt_secret);
     assert!(result.is_ok());
 
-    let result = validate_token_kind(&claims, "/todos");
+    let result = validate_token_kind(claims, "/todos");
     assert!(result.is_ok());
 
-    let result = validate_user(&service, &claims).await;
+    let result = validate_user(&service, claims).await;
     assert!(result.is_ok());
 
-    let result = validate_session(&service, &claims).await;
+    let result = validate_session(&service, claims).await;
     assert!(result.is_ok());
 }
 
@@ -467,7 +467,7 @@ async fn test_valid_refresh_token_flow() {
     let mut headers = HeaderMap::new();
     headers.insert(
         http::header::AUTHORIZATION,
-        format!("Bearer {}", token).parse().unwrap(),
+        format!("Bearer {token}").parse().unwrap(),
     );
 
     let result = validate_header(&headers);
@@ -477,15 +477,15 @@ async fn test_valid_refresh_token_flow() {
     let result = validate_token(&token, &jwt_secret);
     assert!(result.is_ok());
 
-    let result = validate_token_kind(&claims, "/auth/refresh");
+    let result = validate_token_kind(claims, "/auth/refresh");
     assert!(result.is_ok());
 
-    let result = validate_user(&service, &claims).await;
+    let result = validate_user(&service, claims).await;
     assert!(result.is_ok());
 
-    let result = validate_session(&service, &claims).await;
+    let result = validate_session(&service, claims).await;
     assert!(result.is_ok());
 
-    let result = validate_refresh_token(&claims, &session);
+    let result = validate_refresh_token(claims, &session);
     assert!(result.is_ok());
 }

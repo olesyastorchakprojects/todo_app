@@ -79,7 +79,7 @@ async fn test_update() {
     let updated_todo = storage.get(ADMIN_UUID.into(), id).await.unwrap();
     assert_eq!(updated_todo.text, new_text);
     assert_eq!(updated_todo.group, group);
-    assert_eq!(updated_todo.completed, true);
+    assert!(updated_todo.completed);
 
     let result = storage
         .update(

@@ -19,7 +19,7 @@ where
     let elapsed = start.elapsed().as_millis() as f64;
 
     let (status, error_kind) = match &result {
-        Err(e) => ("error", format!("error: {}", e)),
+        Err(e) => ("error", format!("error: {e}")),
         Ok(_) => ("ok", "NA".to_string()),
     };
 
@@ -47,7 +47,7 @@ where
     let elapsed = start.elapsed().as_millis() as f64;
 
     let (status, err_kind) = match &result {
-        Err(e) => ("error", format!("error: {}", e)),
+        Err(e) => ("error", format!("error: {e}")),
         Ok(_) => ("ok", "NA".to_string()),
     };
 
@@ -123,7 +123,7 @@ where
 pub(crate) fn init_memory_metrics() {
     init_rss_metrics();
 
-    #[cfg(all(feature = "jemalloc"))]
+    #[cfg(feature = "jemalloc")]
     super::jemalloc_metrics::init_jemalloc_metrics();
 }
 

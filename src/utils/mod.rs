@@ -8,7 +8,7 @@ pub(crate) static APP_NAME: &str = "todo_app";
 
 pub(crate) use root_span::RootSpan;
 
-#[cfg(all(feature = "jemalloc"))]
+#[cfg(feature = "jemalloc")]
 mod jemalloc_metrics;
 
 #[macro_export]

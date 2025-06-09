@@ -57,7 +57,7 @@ impl TestStorageBuilder {
         self.todos = (0..count)
             .map(|i| Todo {
                 id: TodoId::new(),
-                text: format!("todo {}", i),
+                text: format!("todo {i}"),
                 completed: false,
                 group: String::from("group"),
             })
