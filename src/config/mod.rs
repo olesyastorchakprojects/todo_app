@@ -21,20 +21,14 @@ pub struct Settings {
 
 impl Settings {
     pub fn new() -> Result<Self, StartupError> {
+        dotenv::dotenv().ok();
+
         let run_mode = std::env::var("RUN_MODE").unwrap_or("development".into());
 
         Settings::from_file(&run_mode)
     }
 
     pub fn from_file(file_name: &str) -> Result<Self, StartupError> {
-        dotenv::dotenv().ok();
-
-        for (k, v) in std::env::vars() {
-            if k.contains("APP") {
-                println!("{k} = {v}");
-            }
-        }
-
         std::env::var(JWT_SECRET_KEY)
             .map_err(|_| StartupError::FailedToLoadEnvVar(JWT_SECRET_KEY))?;
 

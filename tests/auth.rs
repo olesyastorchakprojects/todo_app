@@ -4,7 +4,7 @@ use reqwest::StatusCode;
 
 #[tokio::test]
 async fn register_success() {
-    let handle = spawn_test_app(create_test_app(Some("test")).await).await;
+    let handle = spawn_test_app(create_test_app(None).await).await;
 
     let client = TestAppClient::new(handle.address);
 
@@ -15,7 +15,7 @@ async fn register_success() {
 
 #[tokio::test]
 async fn register_duplicate_email() {
-    let handle = spawn_test_app(create_test_app(Some("test")).await).await;
+    let handle = spawn_test_app(create_test_app(None).await).await;
 
     let client = TestAppClient::new(handle.address);
 
@@ -30,7 +30,7 @@ async fn register_duplicate_email() {
 
 #[tokio::test]
 async fn login_success() {
-    let handle = spawn_test_app(create_test_app(Some("test")).await).await;
+    let handle = spawn_test_app(create_test_app(None).await).await;
 
     let client = TestAppClient::new(handle.address);
 
@@ -48,7 +48,7 @@ async fn login_success() {
 
 #[tokio::test]
 async fn login_wrong_password() {
-    let handle = spawn_test_app(create_test_app(Some("test")).await).await;
+    let handle = spawn_test_app(create_test_app(None).await).await;
 
     let client = TestAppClient::new(handle.address);
 
@@ -63,7 +63,7 @@ async fn login_wrong_password() {
 
 #[tokio::test]
 async fn login_nonexistent_user() {
-    let handle = spawn_test_app(create_test_app(Some("test")).await).await;
+    let handle = spawn_test_app(create_test_app(None).await).await;
 
     let client = TestAppClient::new(handle.address);
 
@@ -74,7 +74,7 @@ async fn login_nonexistent_user() {
 
 #[tokio::test]
 async fn register_with_missing_fields() {
-    let handle = spawn_test_app(create_test_app(Some("test")).await).await;
+    let handle = spawn_test_app(create_test_app(None).await).await;
 
     let client = TestAppClient::new(handle.address);
 
@@ -90,7 +90,7 @@ async fn register_with_missing_fields() {
 
 #[tokio::test]
 async fn login_with_missing_fields() {
-    let handle = spawn_test_app(create_test_app(Some("test")).await).await;
+    let handle = spawn_test_app(create_test_app(None).await).await;
 
     let client = TestAppClient::new(handle.address);
 

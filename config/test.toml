@@ -16,13 +16,21 @@ metrics = false
 
 [rate_limiter]
 
-[rate_limiter.registration]
+[rate_limiter.registration.global]
+cells_per_second = 100
+burst_per_second = 10
+
+[rate_limiter.registration.per_ip]
+cells_per_second = 50
+burst_per_second = 5
+
+[rate_limiter.login.global]
 cells_per_second = 100
 burst_per_second = 20
 
-[rate_limiter.login]
-cells_per_second = 100
-burst_per_second = 20
+[rate_limiter.login.per_ip]
+cells_per_second = 50
+burst_per_second = 5
 
 [storage.sled]
 # in delete_all we delete items in batches

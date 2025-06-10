@@ -27,7 +27,7 @@ impl Drop for EnvSetter {
 async fn expired_access_token_test() {
     let _env_setter = EnvSetter::new("APP__JWT__ACCESS_TOKEN_TTL_SEC", "-1");
 
-    let handle = spawn_test_app(create_test_app(Some("test")).await).await;
+    let handle = spawn_test_app(create_test_app(None).await).await;
     let client = TestAppClient::new(handle.address);
 
     let tokens = client.register_and_login("userA@gmail.com", "123").await;
@@ -45,7 +45,7 @@ async fn expired_refresh_token_test() {
     let _env_setter1 = EnvSetter::new("APP__JWT__ACCESS_TOKEN_TTL_SEC", "-1");
     let _env_setter2 = EnvSetter::new("APP__JWT__REFRESH_TOKEN_TTL_SEC", "-1");
 
-    let handle = spawn_test_app(create_test_app(Some("test")).await).await;
+    let handle = spawn_test_app(create_test_app(None).await).await;
 
     let client = TestAppClient::new(handle.address);
 
@@ -62,7 +62,7 @@ async fn expired_refresh_token_test() {
 #[serial]
 async fn valid_refresh_token_test() {
     let _env_setter = EnvSetter::new("APP__JWT__ACCESS_TOKEN_TTL_SEC", "-1");
-    let handle = spawn_test_app(create_test_app(Some("test")).await).await;
+    let handle = spawn_test_app(create_test_app(None).await).await;
 
     let client = TestAppClient::new(handle.address);
 
@@ -78,7 +78,7 @@ async fn valid_refresh_token_test() {
 #[tokio::test]
 #[parallel]
 async fn old_refresh_token_rejected_test() {
-    let handle = spawn_test_app(create_test_app(Some("test")).await).await;
+    let handle = spawn_test_app(create_test_app(None).await).await;
 
     let client = TestAppClient::new(handle.address);
 
@@ -97,7 +97,7 @@ async fn old_refresh_token_rejected_test() {
 #[tokio::test]
 #[parallel]
 async fn valid_refresh_and_access_token_test() {
-    let handle = spawn_test_app(create_test_app(Some("test")).await).await;
+    let handle = spawn_test_app(create_test_app(None).await).await;
 
     let client = TestAppClient::new(handle.address);
 
@@ -115,7 +115,7 @@ async fn valid_refresh_and_access_token_test() {
 #[tokio::test]
 #[parallel]
 async fn logout_invalidates_tokens_test() {
-    let handle = spawn_test_app(create_test_app(Some("test")).await).await;
+    let handle = spawn_test_app(create_test_app(None).await).await;
 
     let client = TestAppClient::new(handle.address);
 
@@ -137,7 +137,7 @@ async fn logout_invalidates_tokens_test() {
 #[tokio::test]
 #[parallel]
 async fn refresh_token_required_test() {
-    let handle = spawn_test_app(create_test_app(Some("test")).await).await;
+    let handle = spawn_test_app(create_test_app(None).await).await;
 
     let client = TestAppClient::new(handle.address);
 
@@ -152,7 +152,7 @@ async fn refresh_token_required_test() {
 #[tokio::test]
 #[parallel]
 async fn access_token_required_test() {
-    let handle = spawn_test_app(create_test_app(Some("test")).await).await;
+    let handle = spawn_test_app(create_test_app(None).await).await;
 
     let client = TestAppClient::new(handle.address);
 

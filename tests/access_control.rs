@@ -4,7 +4,7 @@ use reqwest::StatusCode;
 
 #[tokio::test]
 async fn access_todo_without_token() {
-    let handle = spawn_test_app(create_test_app(Some("test")).await).await;
+    let handle = spawn_test_app(create_test_app(None).await).await;
 
     let client = TestAppClient::new(handle.address);
 
@@ -15,7 +15,7 @@ async fn access_todo_without_token() {
 
 #[tokio::test]
 async fn access_other_user_todo() {
-    let handle = spawn_test_app(create_test_app(Some("test")).await).await;
+    let handle = spawn_test_app(create_test_app(None).await).await;
 
     let client = TestAppClient::new(handle.address);
 
