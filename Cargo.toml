@@ -54,7 +54,7 @@ argon2 = { version = "0.5.3", features = ["std"] }
 sysinfo = "0.35.1"
 jemallocator = { version = "0.5.4", optional = true, features = ["stats", "unprefixed_malloc_on_supported_platforms"] }
 jemalloc-ctl = {version = "0.5.4", optional = true }
-num_cpus = "1.16.0"
+num_cpus = "1.17.0"
 governor = "0.10.0"
 moka = { version = "0.12.10", features = ["future"] }
 tracing-log = "0.2.0"
