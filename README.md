@@ -30,7 +30,7 @@ A compact, production-minded REST service demonstrating:
 4. [Storage layer](#4--storage-layer--sled--bincode)
 5. [Observability Stack](#5--observability-stack)
 6. [Configuration & Tuning](#6--configuration--tuning)
-7. [Testing matrix](#7-testing-matrix)
+7. [Testing matrix and coverage](#7-testing-matrix-and-coverage)
 8. [Bench tests](#8-bench-tests)
 9. [Rate limiting strategy](#9-rate-limiting-strategy)
 10. [Roadmap](#10-roadmap)
@@ -253,7 +253,7 @@ metrics_endpoint = "http://otel-collector:4317"
 
 ---
 
-## 7 Testing matrix
+## 7 Testing matrix and coverage
 
 | Tier                                     | 	Runner / Tooling | Location
 |-----------------------------------------|------|----------|
@@ -261,6 +261,9 @@ metrics_endpoint = "http://otel-collector:4317"
 |`Integration`                            |Tokio + Axum|`tests/*.rs` (spins full app)|
 |`Load`                                   |k6 + Docker|`bench/scripts/`|
 
+Code coverage with existing tests
+
+![](docs/images/coverage.png)
 
 ---
 
