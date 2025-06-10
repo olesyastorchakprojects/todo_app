@@ -9,5 +9,4 @@
 /compose/tempo/tempo-data
 /compose/tempo/tempo-wal
 /bench/bench
-Cargo.lock
 .env
