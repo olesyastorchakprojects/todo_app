@@ -51,7 +51,7 @@ utoipa = { version = "5.3.1", features = ["axum_extras", "chrono", "uuid"] }
 utoipa-swagger-ui = { version = "9.0.2", features = ["axum"] }
 utoipa-axum = "0.2.0"
 argon2 = { version = "0.5.3", features = ["std"] }
-sysinfo = "0.35.1"
+sysinfo = "0.35.2"
 jemallocator = { version = "0.5.4", optional = true, features = ["stats", "unprefixed_malloc_on_supported_platforms"] }
 jemalloc-ctl = {version = "0.5.4", optional = true }
 num_cpus = "1.17.0"
