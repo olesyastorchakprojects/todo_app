@@ -13,8 +13,6 @@ use crate::{
 use chrono::Utc;
 use http::HeaderMap;
 
-static EXPIRED_ACCESS_TOKEN: &str = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2Y2RlMDA1MC1iNTFiLTRiMTMtOGY2Ni00YjcyYTY2ZGQ1NjQiLCJleHAiOjE3NDk1NzI0MDAsInNlc3Npb25faWQiOiIzNTU4MWEwNi05ODllLTQwYmEtOWNmMy02ZWM2OTFjMDVjOGUiLCJyZWZyZXNoX2p0aSI6bnVsbCwia2luZCI6IkFjY2VzcyJ9.i_xEMZ9wb1RdTdei33k-FZ5uPxGqu6sJ4GHW0CNRgdg";
-
 #[test]
 fn test_missing_header() {
     let headers = HeaderMap::new();
@@ -59,10 +57,9 @@ fn test_invalid_signature() {
 #[test]
 fn test_expired_token() {
     let _settings = Settings::new().unwrap();
-    let result = validate_token(
-        EXPIRED_ACCESS_TOKEN,
-        &std::env::var(JWT_SECRET_KEY).unwrap(),
-    );
+    let jwt_secret = std::env::var(JWT_SECRET_KEY).unwrap();
+    let token = generate_access_token(UserId::new(), SessionId::new(), &jwt_secret, -1).unwrap();
+    let result = validate_token(&token, &jwt_secret);
     assert!(matches!(result, Err(AuthError::TokenExpired)));
 }
 
